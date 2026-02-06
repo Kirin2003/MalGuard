@@ -1,0 +1,14 @@
+toolpy-1.0.0
+inmanta_dev_dependencies-2.57.0
+qoqo_qasm-0.5.0
+ocean-contracts-1.1.11
+zeversolar-0.3.0
+dissect-3.5
+py_ssd-0.15.2
+toolpy-1.0.0
+inmanta_dev_dependencies-2.57.0
+qoqo_qasm-0.5.0
+ocean-contracts-1.1.11
+zeversolar-0.3.0
+dissect-3.5
+py_ssd-0.15.2
