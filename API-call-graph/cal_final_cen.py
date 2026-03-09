@@ -36,7 +36,7 @@ def calculate_final_centrality(all_packages):
 def save_final_results(final_results, output_folder):
     for centrality_type, values in final_results.items():
         sorted_values = dict(sorted(values.items(), key=lambda item: item[1], reverse=True))
-        output_file = os.path.join(output_folder, f"{centrality_type}_final_new_0129.json")
+        output_file = os.path.join(output_folder, f"{centrality_type}_final_new.json")
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(sorted_values, f, ensure_ascii=False, indent=4)
 
@@ -51,13 +51,13 @@ def process_all_packages(base_folder, start_month='2022-01', end_month='2023-02'
         months.append(current.strftime('%Y-%m'))
         current = (current.month == 12 and datetime(current.year + 1, 1, 1) or datetime(current.year, current.month + 1, 1))
 
-    # 收集指定月份下的所有恶意包
+    # 收集指定月份下的所有恶意包 (新目录结构: {malicious,benign}/{月份}/{包})
     all_packages = []
     for month in months:
-        month_path = os.path.join(base_folder, month, 'malicious')
-        if os.path.exists(month_path):
-            packages = [os.path.join(month_path, pkg) for pkg in os.listdir(month_path)
-                       if os.path.isdir(os.path.join(month_path, pkg))]
+        malicious_path = os.path.join(base_folder, 'malicious', month)
+        if os.path.exists(malicious_path):
+            packages = [os.path.join(malicious_path, pkg) for pkg in os.listdir(malicious_path)
+                       if os.path.isdir(os.path.join(malicious_path, pkg))]
             all_packages.extend(packages)
 
     print(f"共收集到 {len(all_packages)} 个恶意包 (月份: {start_month} ~ {end_month})")
@@ -67,5 +67,5 @@ def process_all_packages(base_folder, start_month='2022-01', end_month='2023-02'
     save_final_results(final_results, base_folder)
 
 if __name__ == '__main__':
-    base_folder = r'/Data2/hxq/datasets/incremental_packages'
+    base_folder = r'/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset'
     process_all_packages(base_folder, start_month='2022-01', end_month='2023-02')

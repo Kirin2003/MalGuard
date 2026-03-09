@@ -109,5 +109,5 @@ results = add_api_ids(results)
 
 # 保存结果
 final_output = {"apis": results}
-write_json(final_output, r"gpt_prompt_result_closeness_0129.json")
-print(f"\n完成! 共评估 {len(results)} 个 API, 结果已保存到 gpt_prompt_result_closeness_0129.json")
+write_json(final_output, r"gpt_prompt_result_closeness.json")
+print(f"\n完成! 共评估 {len(results)} 个 API, 结果已保存到 gpt_prompt_result_closeness.json")

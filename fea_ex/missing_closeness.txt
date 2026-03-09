@@ -12,3 +12,9 @@ ocean-contracts-1.1.11
 zeversolar-0.3.0
 dissect-3.5
 py_ssd-0.15.2
+py_ssd-0.15.2
+py_ssd-0.15.2
+css_inline-0.14.0
+pytest_ipywidgets-1.32.1
+matcher_py-0.1.7
+mtmdb-0.0.571

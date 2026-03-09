@@ -116,11 +116,11 @@ def process_package(package_path):
     # print(f"END PROCESSING {package_path}")
 
 def main():
-    base_path = r'/Data2/hxq/datasets/incremental_packages'
+    base_path = r'/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset/'
 
     # 生成 2022-01 到 2024-12 的月份列表
     from datetime import datetime
-    start = datetime.strptime('2022-03', '%Y-%m')
+    start = datetime.strptime('2022-01', '%Y-%m')
     end = datetime.strptime('2024-12', '%Y-%m')
     months = []
     current = start
@@ -128,20 +128,23 @@ def main():
         months.append(current.strftime('%Y-%m'))
         current = (current.month == 12 and datetime(current.year + 1, 1, 1) or datetime(current.year, current.month + 1, 1))
 
-    # 遍历所有月份和类型目录，处理每个包
+    # 遍历所有类型和月份目录，处理每个包
     total_start_time = time.time()
     package_count = 0
 
-    for month in months:
-        month_path = os.path.join(base_path, month)
+    for sub_type in ['benign', 'malicious']:
+        type_base_path = os.path.join(base_path, sub_type)
 
-        for sub_type in ['benign', 'malicious']:
-            type_path = os.path.join(month_path, sub_type)
+        for month in months:
+            month_path = os.path.join(type_base_path, month)
 
-            print(f"处理月份: {month}, 类型: {sub_type}")
+            if not os.path.exists(month_path):
+                continue
 
-            for package_name in os.listdir(type_path):
-                package_path = os.path.join(type_path, package_name)
+            print(f"处理类型: {sub_type}, 月份: {month}")
+
+            for package_name in os.listdir(month_path):
+                package_path = os.path.join(month_path, package_name)
                 if os.path.isdir(package_path):
                     process_package(package_path)
                     package_count += 1

@@ -1,8 +1,8 @@
 import json
 
 
-input_file = r'/Data2/hxq/datasets/incremental_packages/closeness_final_new_0129.json'
-output_file = r'output_top_500_closeness_centrality_0129.json'
+input_file = r'/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset/closeness_final_new.json'
+output_file = r'output_top_500_closeness_centrality.json'
 
 
 with open(input_file, 'r', encoding='utf-8') as f:

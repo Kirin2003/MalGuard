@@ -20,14 +20,12 @@ def extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2
 
     api_feature_map = {api["api_name"]: 0 for api in feature_set["apis"]}
 
-    for month in months:
-        month_path = os.path.join(pack_dir, month)
+    # 新目录结构: {malicious,benign}/{月份}/{包}
+    for type_name in ["malicious", "benign"]:
+        type_path = os.path.join(pack_dir, type_name)
 
-        type_path = ["malicious", "benign"]
-
-        month_type_paths = [os.path.join(month_path, t) for t in type_path]
-
-        for month_type_path in month_type_paths:
+        for month in months:
+            month_type_path = os.path.join(type_path, month)
 
             for package_dir in os.listdir(month_type_path):
                 package_path = os.path.join(month_type_path, package_dir)
@@ -52,7 +50,7 @@ def extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2
                         if api_name in api_feature_map:
                             feature_vector[api_name] = feature_value
 
-                    output_file = os.path.join(package_path, "closeness_feature_vector_0129.json")
+                    output_file = os.path.join(package_path, "closeness_feature_vector.json")
                     with open(output_file, 'w', encoding='utf-8') as f:
                         json.dump(feature_vector, f, indent=4)
                 except Exception as e:
@@ -83,7 +81,7 @@ def extract_package_features(fea_set_path, package_path):
             if api_name in api_feature_map:
                 feature_vector[api_name] = feature_value
 
-        output_file = os.path.join(package_path, "closeness_feature_vector_0129.json")
+        output_file = os.path.join(package_path, "closeness_feature_vector.json")
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(feature_vector, f, indent=4)
     except Exception as e:
@@ -94,11 +92,11 @@ if __name__ == "__main__":
     starttime = time.time()
     print(f"The start time is: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
 
-    fea_set_path = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness_0129.json" 
-    pack_dir = r"/Data2/hxq/datasets/incremental_packages" 
+    fea_set_path = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness.json" 
+    pack_dir = r"/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset" 
 
  
-    extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2024-03')
+    extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2024-12')
 
 
     endtime = time.time()

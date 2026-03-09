@@ -16,21 +16,22 @@ def convert_features_to_txt(pack_dir, output_txt_path, start_month='2022-01', en
 
     total_count = 0
 
+    # 新目录结构: {malicious,benign}/{月份}/{包}
     with open(output_txt_path, 'w', encoding='utf-8') as f_out:
 
-        for month in months:
-            month_path = os.path.join(pack_dir, month)
-            if not os.path.exists(month_path):
-                continue
+        type_path = os.path.join(pack_dir, type_flag)
 
-            month_type_path = os.path.join(month_path, type_flag)
+        for month in months:
+            month_type_path = os.path.join(type_path, month)
+            if not os.path.exists(month_type_path):
+                continue
 
             for package_dir in os.listdir(month_type_path):
                 package_path = os.path.join(month_type_path, package_dir)
                 if not os.path.isdir(package_path):
                     continue
 
-                feature_file = os.path.join(package_path, "closeness_feature_vector_0129.json")
+                feature_file = os.path.join(package_path, "closeness_feature_vector.json")
                 if not os.path.exists(feature_file):
                     continue
 
@@ -57,7 +58,7 @@ def convert_features_to_txt(pack_dir, output_txt_path, start_month='2022-01', en
 # 主程序入口
 if __name__ == "__main__":
 
-    pack_dir = r"/Data2/hxq/datasets/incremental_packages"
+    pack_dir = r"/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset"
     # malicious_output_txt_path = r"/Data2/hxq/MalGuard/fea_ex/malware_features_train.txt"
     # benign_output_txt_path = r"/Data2/hxq/MalGuard/fea_ex/benign_features_train.txt"
 
@@ -66,10 +67,8 @@ if __name__ == "__main__":
 
     # 将2303~2412每个月的特征向量各自合并成一个文件
     for month in [f"{year}-{str(m).zfill(2)}" for year in range(2022, 2025) for m in range(1, 13)]:
-        if month > '2024-03':
-            break
-        malicious_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset_0129/malware_features_{month}.txt"
-        benign_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset_0129/benign_features_{month}.txt"
+        malicious_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset_0309/malware_features_{month}.txt"
+        benign_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset_0309/benign_features_{month}.txt"
 
         convert_features_to_txt(pack_dir, malicious_output_txt_path, start_month=month, end_month=month, type_flag="malicious")
         convert_features_to_txt(pack_dir, benign_output_txt_path, start_month=month, end_month=month, type_flag="benign")    
