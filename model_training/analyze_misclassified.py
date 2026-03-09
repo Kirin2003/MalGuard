@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 # 配置
 model_path = "/Data2/hxq/MalGuard/model_training/models/multi_layer_perceptron/multi_layer_perceptron_model.pkl"
-pack_dir = "/Data2/hxq/datasets/incremental_packages"
+pack_dir = "/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset"
 output_dir = "/Data2/hxq/MalGuard/model_training/misclassified_analysis"
 os.makedirs(output_dir, exist_ok=True)
 
@@ -36,7 +36,7 @@ for month in target_months:
             if not os.path.isdir(package_path):
                 continue
 
-            feature_file = os.path.join(package_path, "closeness_feature_vector_0129.json")
+            feature_file = os.path.join(package_path, "closeness_feature_vector.json")
             if not os.path.exists(feature_file):
                 continue
 
@@ -67,7 +67,7 @@ for month in target_months:
             if not os.path.isdir(package_path):
                 continue
 
-            feature_file = os.path.join(package_path, "closeness_feature_vector_0129.json")
+            feature_file = os.path.join(package_path, "closeness_feature_vector.json")
             if not os.path.exists(feature_file):
                 continue
 
