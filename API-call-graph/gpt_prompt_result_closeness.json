@@ -1,0 +1,1300 @@
+{
+    "apis": [
+        {
+            "api_name": "os.system",
+            "malicious_purposes": [
+                "Executing arbitrary shell commands for command injection attacks",
+                "Launching system-level payloads or backdoors"
+            ],
+            "api_id": 1
+        },
+        {
+            "api_name": "subprocess.Popen",
+            "malicious_purposes": [
+                "Spawning new processes to execute malicious binaries or scripts",
+                "Bypassing security controls by invoking external programs"
+            ],
+            "api_id": 2
+        },
+        {
+            "api_name": "b64decode",
+            "malicious_purposes": [
+                "Decoding obfuscated malicious payloads embedded in base64 strings",
+                "Decrypting or unpacking encoded command-and-control instructions"
+            ],
+            "api_id": 3
+        },
+        {
+            "api_name": "socket.socket",
+            "malicious_purposes": [
+                "Establishing reverse shells or covert communication channels",
+                "Performing network reconnaissance or data exfiltration"
+            ],
+            "api_id": 4
+        },
+        {
+            "api_name": "sock.connect",
+            "malicious_purposes": [
+                "Connecting to attacker-controlled servers for data exfiltration",
+                "Initiating outbound connections in malware or botnets"
+            ],
+            "api_id": 5
+        },
+        {
+            "api_name": "requests.get",
+            "malicious_purposes": [
+                "Downloading additional malware components from remote servers",
+                "Exfiltrating sensitive data to external endpoints"
+            ],
+            "api_id": 6
+        },
+        {
+            "api_name": "f.write",
+            "malicious_purposes": [
+                "Writing malicious payloads or configuration files to disk",
+                "Persisting malware or modifying system files"
+            ],
+            "api_id": 7
+        },
+        {
+            "api_name": "f.read",
+            "malicious_purposes": [
+                "Reading sensitive local files (e.g., credentials, configs) for exfiltration",
+                "Loading encrypted or hidden payloads from disk"
+            ],
+            "api_id": 8
+        },
+        {
+            "api_name": "fp.read",
+            "malicious_purposes": [
+                "Reading arbitrary file content that may contain sensitive data",
+                "Loading staged payloads from temporary or hidden files"
+            ],
+            "api_id": 9
+        },
+        {
+            "api_name": "re.findall",
+            "malicious_purposes": [
+                "Extracting sensitive information (e.g., passwords, tokens) from text using regex",
+                "Parsing command-and-control responses to extract instructions"
+            ],
+            "api_id": 10
+        },
+        {
+            "api_name": "exec",
+            "malicious_purposes": [
+                "Dynamic execution of arbitrary code, enabling remote code execution if input is controlled by an attacker",
+                "Obfuscation and evasion technique to hide malicious payloads in strings or encoded data"
+            ],
+            "api_id": 11
+        },
+        {
+            "api_name": "__import__",
+            "malicious_purposes": [
+                "Dynamically importing modules at runtime to load malicious libraries or bypass static analysis",
+                "Facilitating plugin-based malware architectures that fetch and execute additional payloads"
+            ],
+            "api_id": 12
+        },
+        {
+            "api_name": "sys.exit",
+            "malicious_purposes": [
+                "Disrupting legitimate program execution as part of a denial-of-service attack",
+                "Terminating security monitoring processes or sandbox environments during malware execution"
+            ],
+            "api_id": 13
+        },
+        {
+            "api_name": "requests.post",
+            "malicious_purposes": [
+                "Exfiltrating sensitive data to attacker-controlled servers",
+                "Communicating with command-and-control (C2) infrastructure to receive instructions or upload stolen information"
+            ],
+            "api_id": 14
+        },
+        {
+            "api_name": "codecs.open",
+            "malicious_purposes": [
+                "Reading or writing encoded/obfuscated malicious payloads from disk to evade detection",
+                "Accessing sensitive files (e.g., credentials, configuration) using alternative encodings to bypass simple filters"
+            ],
+            "api_id": 15
+        },
+        {
+            "api_name": "write",
+            "malicious_purposes": [
+                "Writing malicious scripts, payloads, or persistence mechanisms to the file system",
+                "Modifying system or application files to escalate privileges or maintain access"
+            ],
+            "api_id": 16
+        },
+        {
+            "api_name": "read",
+            "malicious_purposes": [
+                "Reading sensitive local files (e.g., /etc/passwd, SSH keys, environment variables) for data theft",
+                "Loading configuration or credential files to facilitate lateral movement or privilege escalation"
+            ],
+            "api_id": 17
+        },
+        {
+            "api_name": "connect",
+            "malicious_purposes": [
+                "Establishing outbound connections to attacker-controlled servers for data exfiltration or C2 communication",
+                "Scanning internal networks by attempting connections to various hosts and ports"
+            ],
+            "api_id": 18
+        },
+        {
+            "api_name": "sock_sendall",
+            "malicious_purposes": [
+                "Sending stolen data or reconnaissance results over raw sockets to evade high-level network monitoring",
+                "Participating in distributed denial-of-service (DDoS) attacks by flooding target systems"
+            ],
+            "api_id": 19
+        },
+        {
+            "api_name": "sock_connect",
+            "malicious_purposes": [
+                "Creating low-level network connections to bypass proxy or firewall restrictions",
+                "Enabling covert communication channels using non-standard protocols or ports"
+            ],
+            "api_id": 20
+        },
+        {
+            "api_name": "Popen",
+            "malicious_purposes": [
+                "Arbitrary command execution by spawning new processes",
+                "Privilege escalation if executed with elevated privileges"
+            ],
+            "api_id": 21
+        },
+        {
+            "api_name": "urlopen",
+            "malicious_purposes": [
+                "Data exfiltration by sending sensitive information to remote servers",
+                "Downloading and executing additional malicious payloads"
+            ],
+            "api_id": 22
+        },
+        {
+            "api_name": "Request",
+            "malicious_purposes": [
+                "Crafting HTTP requests for data exfiltration or C2 communication",
+                "Bypassing security controls through custom headers or methods"
+            ],
+            "api_id": 23
+        },
+        {
+            "api_name": "os.remove",
+            "malicious_purposes": [
+                "Deleting critical system or user files to cause disruption",
+                "Covering tracks by removing log or evidence files"
+            ],
+            "api_id": 24
+        },
+        {
+            "api_name": "os.getenv",
+            "malicious_purposes": [
+                "Extracting sensitive environment variables (e.g., API keys, credentials)",
+                "Reconnaissance to gather system or user context for targeted attacks"
+            ],
+            "api_id": 25
+        },
+        {
+            "api_name": "getpass.getuser",
+            "malicious_purposes": [
+                "User reconnaissance to tailor social engineering or privilege escalation",
+                "Constructing paths to user-specific sensitive files"
+            ],
+            "api_id": 26
+        },
+        {
+            "api_name": "socket.gethostname",
+            "malicious_purposes": [
+                "System fingerprinting for targeted attacks",
+                "Exfiltrating host identification data to C2 servers"
+            ],
+            "api_id": 27
+        },
+        {
+            "api_name": "tempfile.gettempdir",
+            "malicious_purposes": [
+                "Dropping malicious payloads in temporary directories to evade detection",
+                "Storing stolen data temporarily before exfiltration"
+            ],
+            "api_id": 28
+        },
+        {
+            "api_name": "os.listdir",
+            "malicious_purposes": [
+                "Enumerating files and directories for reconnaissance",
+                "Searching for sensitive files (e.g., credentials, configs) to steal"
+            ],
+            "api_id": 29
+        },
+        {
+            "api_name": "os.makedirs",
+            "malicious_purposes": [
+                "Creating hidden directories to store malware or exfiltrated data",
+                "Establishing persistence structures in the file system"
+            ],
+            "api_id": 30
+        },
+        {
+            "api_name": "base64.b64encode",
+            "malicious_purposes": [
+                "Obfuscating malicious payloads or exfiltrated data to evade detection",
+                "Encoding commands or data for transmission over restricted channels"
+            ],
+            "api_id": 31
+        },
+        {
+            "api_name": "compile",
+            "malicious_purposes": [
+                "Dynamically compiling and executing arbitrary code strings",
+                "Obfuscating malicious logic to bypass static analysis"
+            ],
+            "api_id": 32
+        },
+        {
+            "api_name": "setattr",
+            "malicious_purposes": [
+                "Modifying object behavior at runtime to inject malicious functionality",
+                "Bypassing security checks by altering class or instance attributes"
+            ],
+            "api_id": 33
+        },
+        {
+            "api_name": "threading.Thread",
+            "malicious_purposes": [
+                "Running malicious activities in background threads to avoid detection",
+                "Performing concurrent attacks (e.g., brute force, scanning)"
+            ],
+            "api_id": 34
+        },
+        {
+            "api_name": "readlines",
+            "malicious_purposes": [
+                "Reading sensitive files (e.g., /etc/passwd, configuration files) for data exfiltration",
+                "Loading malicious payloads from local files"
+            ],
+            "api_id": 35
+        },
+        {
+            "api_name": "re.compile",
+            "malicious_purposes": [
+                "Obfuscating malicious patterns or payloads using complex regular expressions",
+                "Bypassing input validation through crafted regex patterns"
+            ],
+            "api_id": 36
+        },
+        {
+            "api_name": "traceback.format_exc",
+            "malicious_purposes": [
+                "Leaking internal system information or stack traces to aid in reconnaissance",
+                "Assisting in debugging malicious code during exploitation"
+            ],
+            "api_id": 37
+        },
+        {
+            "api_name": "requests.request",
+            "malicious_purposes": [
+                "Exfiltrating stolen data to external servers",
+                "Downloading and executing additional malicious payloads from remote sources"
+            ],
+            "api_id": 38
+        },
+        {
+            "api_name": "requests.Session",
+            "malicious_purposes": [
+                "Maintaining persistent connections to command-and-control (C2) servers",
+                "Sending multiple malicious requests while preserving session state (e.g., cookies, headers)"
+            ],
+            "api_id": 39
+        },
+        {
+            "api_name": "byref",
+            "malicious_purposes": [
+                "Manipulating memory addresses in conjunction with ctypes for privilege escalation",
+                "Facilitating buffer overflow or memory corruption exploits"
+            ],
+            "api_id": 40
+        },
+        {
+            "api_name": "HTTPAdapter",
+            "malicious_purposes": [
+                "Customizing HTTP request behavior to evade detection (e.g., modifying retry logic, headers)",
+                "Intercepting or modifying traffic for man-in-the-middle attacks"
+            ],
+            "api_id": 41
+        },
+        {
+            "api_name": "json",
+            "malicious_purposes": [
+                "Encoding/decoding command-and-control instructions or exfiltrated data",
+                "Deserializing untrusted input that may lead to object injection (if used with unsafe parsers)"
+            ],
+            "api_id": 42
+        },
+        {
+            "api_name": "file.endswith",
+            "malicious_purposes": [
+                "Filtering specific file types (e.g., .pem, .key) during reconnaissance or data theft",
+                "Identifying target files for encryption in ransomware-like behavior"
+            ],
+            "api_id": 43
+        },
+        {
+            "api_name": "os.walk",
+            "malicious_purposes": [
+                "Enumerating the entire file system to locate sensitive files for exfiltration",
+                "Mapping directory structures for lateral movement or persistence"
+            ],
+            "api_id": 44
+        },
+        {
+            "api_name": "quote",
+            "malicious_purposes": [
+                "URL-encoding malicious payloads to bypass web application firewalls (WAFs)",
+                "Obfuscating command injection strings in HTTP requests"
+            ],
+            "api_id": 45
+        },
+        {
+            "api_name": "loads",
+            "malicious_purposes": [
+                "Deserializing untrusted data that could lead to arbitrary code execution (depending on context)",
+                "Parsing attacker-controlled JSON to trigger logic flaws"
+            ],
+            "api_id": 46
+        },
+        {
+            "api_name": "next",
+            "malicious_purposes": [
+                "Iterating over generators or iterators containing malicious payloads",
+                "Bypassing detection by processing data incrementally"
+            ],
+            "api_id": 47
+        },
+        {
+            "api_name": "copy",
+            "malicious_purposes": [
+                "Duplicating sensitive objects (e.g., credentials, tokens) for later exfiltration",
+                "Creating modified copies of benign objects to inject malicious behavior"
+            ],
+            "api_id": 48
+        },
+        {
+            "api_name": "keys",
+            "malicious_purposes": [
+                "Enumerating dictionary keys to extract sensitive metadata or configuration values",
+                "Discovering hidden attributes in objects for exploitation"
+            ],
+            "api_id": 49
+        },
+        {
+            "api_name": "result.append",
+            "malicious_purposes": [
+                "Aggregating harvested data (e.g., credentials, files) for exfiltration",
+                "Building lists of targets or vulnerable endpoints during scanning"
+            ],
+            "api_id": 50
+        },
+        {
+            "api_name": "random.randint",
+            "malicious_purposes": [
+                "Generating random delays or identifiers to evade signature-based detection",
+                "Creating randomized filenames or network artifacts to avoid pattern matching"
+            ],
+            "api_id": 51
+        },
+        {
+            "api_name": "repr",
+            "malicious_purposes": [
+                "Leaking internal object states or memory contents for reconnaissance",
+                "Assisting in debugging or reverse engineering of protected systems"
+            ],
+            "api_id": 52
+        },
+        {
+            "api_name": "copy.copy",
+            "malicious_purposes": [
+                "Shallow copying sensitive data structures for manipulation or exfiltration",
+                "Preserving original state while modifying copies for evasion"
+            ],
+            "api_id": 53
+        },
+        {
+            "api_name": "logging.getLogger",
+            "malicious_purposes": [
+                "Injecting false log entries to mislead defenders or cover tracks",
+                "Capturing sensitive information logged by other components"
+            ],
+            "api_id": 54
+        },
+        {
+            "api_name": "pickle.dumps",
+            "malicious_purposes": [
+                "Serializing malicious objects for remote code execution upon deserialization",
+                "Exfiltrating structured data in a compact binary format"
+            ],
+            "api_id": 55
+        },
+        {
+            "api_name": "json.loads",
+            "malicious_purposes": [
+                "Deserializing attacker-controlled JSON that may trigger logic bugs or injection",
+                "Parsing command instructions from C2 servers"
+            ],
+            "api_id": 56
+        },
+        {
+            "api_name": "base64.b64decode",
+            "malicious_purposes": [
+                "Decoding obfuscated malicious payloads embedded in scripts or configs",
+                "Decrypting or unpacking encoded shellcode or credentials"
+            ],
+            "api_id": 57
+        },
+        {
+            "api_name": "re.split",
+            "malicious_purposes": [
+                "Parsing and extracting sensitive tokens or credentials from text using regex",
+                "Segmenting obfuscated payloads for staged execution"
+            ],
+            "api_id": 58
+        },
+        {
+            "api_name": "paths.append",
+            "malicious_purposes": [
+                "Collecting discovered file paths for later exfiltration or deletion",
+                "Building target lists for recursive operations (e.g., encryption, upload)"
+            ],
+            "api_id": 59
+        },
+        {
+            "api_name": "urlparse",
+            "malicious_purposes": [
+                "Parsing and manipulating URLs to construct SSRF or open-redirect attacks",
+                "Extracting hostnames or paths from logs for reconnaissance"
+            ],
+            "api_id": 60
+        },
+        {
+            "api_name": "io.BytesIO",
+            "malicious_purposes": [
+                "Holding malicious payloads in memory to avoid writing to disk (fileless malware)",
+                "Emulating file-like objects for stealthy data processing"
+            ],
+            "api_id": 61
+        },
+        {
+            "api_name": "isfile",
+            "malicious_purposes": [
+                "Checking for existence of sensitive files before exfiltration",
+                "Validating presence of target files during automated attacks"
+            ],
+            "api_id": 62
+        },
+        {
+            "api_name": "pickle.loads",
+            "malicious_purposes": [
+                "Deserializing untrusted pickle data leading to arbitrary code execution",
+                "Loading attacker-supplied serialized objects to compromise the system"
+            ],
+            "api_id": 63
+        },
+        {
+            "api_name": "zipfile.ZipFile",
+            "malicious_purposes": [
+                "Extracting malicious archives containing payloads or exploit scripts",
+                "Compressing stolen data for efficient exfiltration"
+            ],
+            "api_id": 64
+        },
+        {
+            "api_name": "start",
+            "malicious_purposes": [
+                "Initiating processes or threads that execute malicious logic",
+                "Starting background tasks for persistence or data collection"
+            ],
+            "api_id": 65
+        },
+        {
+            "api_name": "x.strip",
+            "malicious_purposes": [
+                "Sanitizing input to bypass filters that block leading/trailing characters",
+                "Preparing obfuscated commands by removing whitespace or padding"
+            ],
+            "api_id": 66
+        },
+        {
+            "api_name": "Retry",
+            "malicious_purposes": [
+                "Implementing resilient C2 communication that retries failed connections",
+                "Evading temporary network blocks by automatically reattempting exfiltration"
+            ],
+            "api_id": 67
+        },
+        {
+            "api_name": "rewind_body",
+            "malicious_purposes": [
+                "Reusing request bodies in HTTP replay attacks",
+                "Resending payloads after modification to bypass one-time checks"
+            ],
+            "api_id": 68
+        },
+        {
+            "api_name": "CryptUnprotectData",
+            "malicious_purposes": [
+                "Decrypting sensitive data protected by Windows DPAPI, such as saved browser credentials or system secrets, for credential theft.",
+                "Bypassing local data protection mechanisms to extract encrypted payloads or configuration data."
+            ],
+            "api_id": 69
+        },
+        {
+            "api_name": "s.get",
+            "malicious_purposes": [
+                "Fetching remote malicious payloads or command-and-control (C2) instructions from attacker-controlled servers.",
+                "Exfiltrating stolen data by encoding it in URL parameters of GET requests."
+            ],
+            "api_id": 70
+        },
+        {
+            "api_name": "self.send",
+            "malicious_purposes": [
+                "Sending crafted HTTP requests to internal services for server-side request forgery (SSRF) attacks.",
+                "Transmitting exfiltrated data to external endpoints controlled by an attacker."
+            ],
+            "api_id": 71
+        },
+        {
+            "api_name": "session.request",
+            "malicious_purposes": [
+                "Performing arbitrary HTTP requests to internal or external systems, enabling SSRF or data exfiltration.",
+                "Interacting with APIs to abuse functionality (e.g., cloud metadata services) for privilege escalation."
+            ],
+            "api_id": 72
+        },
+        {
+            "api_name": "r.json",
+            "malicious_purposes": [
+                "Deserializing attacker-controlled JSON responses that may contain malicious logic or encoded commands (though limited without eval).",
+                "Processing C2 instructions embedded in JSON format for dynamic malware behavior."
+            ],
+            "api_id": 73
+        },
+        {
+            "api_name": "httpbin",
+            "malicious_purposes": [
+                "Used in testing or staging exfiltration techniques by sending data to public endpoints like httpbin.org for validation.",
+                "Verifying network connectivity or proxy bypass capabilities during reconnaissance."
+            ],
+            "api_id": 74
+        },
+        {
+            "api_name": "resp.json",
+            "malicious_purposes": [
+                "Parsing JSON responses from C2 servers to receive dynamic attack instructions or payloads.",
+                "Extracting configuration data for modular malware components."
+            ],
+            "api_id": 75
+        },
+        {
+            "api_name": "session.send",
+            "malicious_purposes": [
+                "Sending raw HTTP requests that may target internal infrastructure (SSRF) or exfiltrate data.",
+                "Bypassing higher-level request validation by directly invoking low-level send methods."
+            ],
+            "api_id": 76
+        },
+        {
+            "api_name": "requests.Request",
+            "malicious_purposes": [
+                "Constructing arbitrary HTTP requests for SSRF, data exfiltration, or interaction with internal APIs.",
+                "Crafting malicious requests with custom headers or methods to exploit web application vulnerabilities."
+            ],
+            "api_id": 77
+        },
+        {
+            "api_name": "session.prepare_request",
+            "malicious_purposes": [
+                "Modifying request properties before sending, enabling evasion of security controls or crafting of malicious payloads.",
+                "Injecting custom headers or body content for exploitation or exfiltration."
+            ],
+            "api_id": 78
+        },
+        {
+            "api_name": "r.prepare",
+            "malicious_purposes": [
+                "Altering request attributes dynamically to evade detection or target specific endpoints.",
+                "Preparing requests with malicious payloads for SSRF or API abuse."
+            ],
+            "api_id": 79
+        },
+        {
+            "api_name": "urlencode",
+            "malicious_purposes": [
+                "Encoding exfiltrated data or C2 commands into URL-safe strings to hide in HTTP requests.",
+                "Obfuscating payloads in query parameters to bypass simple signature-based detection."
+            ],
+            "api_id": 80
+        },
+        {
+            "api_name": "proxies.get",
+            "malicious_purposes": [
+                "Discovering or manipulating proxy settings to route traffic through attacker-controlled proxies for interception.",
+                "Bypassing network monitoring by leveraging existing proxy configurations."
+            ],
+            "api_id": 81
+        },
+        {
+            "api_name": "r.iter_content",
+            "malicious_purposes": [
+                "Streaming large malicious payloads (e.g., secondary-stage malware) from remote servers without loading entirely into memory.",
+                "Exfiltrating large volumes of data in chunks to avoid detection thresholds."
+            ],
+            "api_id": 82
+        },
+        {
+            "api_name": "r.iter_lines",
+            "malicious_purposes": [
+                "Processing C2 responses line-by-line to execute sequential commands or receive streaming instructions.",
+                "Stealthily exfiltrating data line by line to mimic legitimate traffic patterns."
+            ],
+            "api_id": 83
+        },
+        {
+            "api_name": "self.iter_content",
+            "malicious_purposes": [
+                "Downloading or uploading data incrementally to avoid memory-based detection or size limits.",
+                "Receiving staged payloads from C2 servers in a memory-efficient manner."
+            ],
+            "api_id": 84
+        },
+        {
+            "api_name": "s.send",
+            "malicious_purposes": [
+                "Issuing low-level HTTP requests for SSRF or data exfiltration without high-level abstractions.",
+                "Communicating with internal services using raw request objects to bypass application logic."
+            ],
+            "api_id": 85
+        },
+        {
+            "api_name": "cookiejar_from_dict",
+            "malicious_purposes": [
+                "Injecting stolen session cookies to impersonate users or maintain persistent access.",
+                "Crafting malicious cookie jars for session fixation or hijacking attacks."
+            ],
+            "api_id": 86
+        },
+        {
+            "api_name": "requests.head",
+            "malicious_purposes": [
+                "Probing servers for existence of resources or metadata without triggering full response logging.",
+                "Scanning internal networks via SSRF using lightweight HEAD requests to avoid detection."
+            ],
+            "api_id": 87
+        },
+        {
+            "api_name": "session.get",
+            "malicious_purposes": [
+                "Fetching remote scripts, payloads, or C2 instructions from attacker-controlled servers.",
+                "Exfiltrating data via URL parameters in GET requests to external endpoints."
+            ],
+            "api_id": 88
+        },
+        {
+            "api_name": "create_cookie",
+            "malicious_purposes": [
+                "Forging authentication cookies to gain unauthorized access to web applications.",
+                "Injecting malicious cookies for session poisoning or cross-site scripting (XSS) exploitation."
+            ],
+            "api_id": 89
+        },
+        {
+            "api_name": "extract_cookies_to_jar",
+            "malicious_purposes": [
+                "Stealing cookies from HTTP responses to hijack user sessions or authentication tokens.",
+                "Capturing sensitive cookie data for replay attacks or lateral movement."
+            ],
+            "api_id": 90
+        },
+        {
+            "api_name": "shutil.copy2",
+            "malicious_purposes": [
+                "Copying sensitive files (e.g., password databases, SSH keys) to attacker-accessible locations.",
+                "Duplicating malware payloads to persistence directories or removable media."
+            ],
+            "api_id": 91
+        },
+        {
+            "api_name": "decoder.decode",
+            "malicious_purposes": [
+                "Decoding obfuscated or encrypted payloads received from C2 servers to execute malicious code.",
+                "Transforming encoded exfiltrated data into readable formats before transmission."
+            ],
+            "api_id": 92
+        },
+        {
+            "api_name": "cookielib.CookieJar",
+            "malicious_purposes": [
+                "Managing stolen cookies for session hijacking across multiple requests.",
+                "Persisting forged or harvested cookies to maintain unauthorized access."
+            ],
+            "api_id": 93
+        },
+        {
+            "api_name": "self.set_cookie",
+            "malicious_purposes": [
+                "Setting malicious or forged cookies in the client context to manipulate application state.",
+                "Injecting session tokens or authentication cookies for privilege escalation."
+            ],
+            "api_id": 94
+        },
+        {
+            "api_name": "complexjson.loads",
+            "malicious_purposes": [
+                "Deserializing untrusted JSON input that may contain malicious payloads leading to code execution if combined with unsafe evaluation",
+                "Obfuscating malicious configuration or command structures within JSON for stealthy data exfiltration or command-and-control communication"
+            ],
+            "api_id": 95
+        },
+        {
+            "api_name": "environ_proxies.get",
+            "malicious_purposes": [
+                "Reading proxy configurations from environment variables to bypass network monitoring or redirect traffic through attacker-controlled proxies",
+                "Exfiltrating sensitive proxy credentials or internal network information via environment variable leakage"
+            ],
+            "api_id": 96
+        },
+        {
+            "api_name": "getproxies",
+            "malicious_purposes": [
+                "Enumerating system proxy settings to reroute malicious traffic or evade detection by security tools",
+                "Gathering network reconnaissance data for lateral movement or tunneling exfiltrated data"
+            ],
+            "api_id": 97
+        },
+        {
+            "api_name": "sock.send",
+            "malicious_purposes": [
+                "Sending raw data over a socket to exfiltrate stolen information to an external server",
+                "Establishing covert communication channels for command-and-control (C2) activities"
+            ],
+            "api_id": 98
+        },
+        {
+            "api_name": "file.write",
+            "malicious_purposes": [
+                "Writing malicious payloads, backdoors, or exfiltrated data to the local filesystem",
+                "Modifying system or application files to achieve persistence or escalate privileges"
+            ],
+            "api_id": 99
+        },
+        {
+            "api_name": "hashlib.sha1",
+            "malicious_purposes": [
+                "Obfuscating or hashing stolen data before exfiltration to evade signature-based detection",
+                "Generating fake checksums to tamper with integrity verification mechanisms"
+            ],
+            "api_id": 100
+        },
+        {
+            "api_name": "cursor.execute",
+            "malicious_purposes": [
+                "Executing arbitrary SQL commands leading to SQL injection if inputs are not properly sanitized",
+                "Extracting, modifying, or deleting sensitive data from databases during post-exploitation"
+            ],
+            "api_id": 101
+        },
+        {
+            "api_name": "cursor.fetchall",
+            "malicious_purposes": [
+                "Retrieving large volumes of sensitive database records for data exfiltration after successful SQL injection",
+                "Dumping authentication credentials or personally identifiable information (PII) from compromised systems"
+            ],
+            "api_id": 102
+        },
+        {
+            "api_name": "input",
+            "malicious_purposes": [
+                "Accepting unsanitized user input that could be leveraged for injection attacks or social engineering",
+                "Prompting users for credentials under false pretenses in phishing-like scenarios"
+            ],
+            "api_id": 103
+        },
+        {
+            "api_name": "os.uname",
+            "malicious_purposes": [
+                "Gathering detailed system information (OS, architecture, etc.) for targeted exploitation or environment fingerprinting",
+                "Assisting in privilege escalation by identifying vulnerable kernel versions or misconfigurations"
+            ],
+            "api_id": 104
+        },
+        {
+            "api_name": "shutil.rmtree",
+            "malicious_purposes": [
+                "Deleting entire directory trees to destroy evidence, disrupt services, or perform ransomware-like destruction",
+                "Removing logs or forensic artifacts to cover tracks after compromise"
+            ],
+            "api_id": 105
+        },
+        {
+            "api_name": "winreg.QueryValueEx",
+            "malicious_purposes": [
+                "Reading sensitive Windows registry keys containing credentials, license keys, or system configurations",
+                "Enumerating auto-start entries or security policies to identify persistence mechanisms or weaknesses"
+            ],
+            "api_id": 106
+        },
+        {
+            "api_name": "exit",
+            "malicious_purposes": [
+                "Terminating a program prematurely to evade detection or analysis during malware execution",
+                "Disrupting legitimate service operation in a denial-of-service context"
+            ],
+            "api_id": 107
+        },
+        {
+            "api_name": "sock.sendall",
+            "malicious_purposes": [
+                "Exfiltrating stolen data over a network socket to a remote attacker-controlled server",
+                "Sending malicious payloads or commands as part of a reverse shell or botnet communication"
+            ],
+            "api_id": 108
+        },
+        {
+            "api_name": "sock.close",
+            "malicious_purposes": [
+                "Closing network connections stealthily after data exfiltration to avoid detection",
+                "Disrupting legitimate network communications in a targeted attack"
+            ],
+            "api_id": 109
+        },
+        {
+            "api_name": "requests.put",
+            "malicious_purposes": [
+                "Uploading malicious files or payloads to a remote server during post-exploitation",
+                "Modifying resources on a target API endpoint to alter system behavior or inject malicious content"
+            ],
+            "api_id": 110
+        },
+        {
+            "api_name": "ZipFile",
+            "malicious_purposes": [
+                "Packaging and delivering malware or exploit code in compressed archives to bypass static detection",
+                "Extracting malicious payloads from downloaded ZIP files during drive-by download attacks"
+            ],
+            "api_id": 111
+        },
+        {
+            "api_name": "eval",
+            "malicious_purposes": [
+                "Dynamic code execution leading to arbitrary command execution",
+                "Obfuscation and execution of malicious payloads"
+            ],
+            "api_id": 112
+        },
+        {
+            "api_name": "subprocess.call",
+            "malicious_purposes": [
+                "Execution of system commands for privilege escalation or lateral movement",
+                "Launching external malicious tools or scripts"
+            ],
+            "api_id": 113
+        },
+        {
+            "api_name": "AES.new",
+            "malicious_purposes": [
+                "Encrypting stolen data before exfiltration to evade detection",
+                "Implementing ransomware-style file encryption"
+            ],
+            "api_id": 114
+        },
+        {
+            "api_name": "cipher.decrypt",
+            "malicious_purposes": [
+                "Decrypting embedded malicious payloads or configuration data",
+                "Bypassing static analysis by decrypting code at runtime"
+            ],
+            "api_id": 115
+        },
+        {
+            "api_name": "DecryptValue",
+            "malicious_purposes": [
+                "Decrypting credentials or other sensitive data stored in obfuscated form",
+                "Revealing hidden command-and-control instructions"
+            ],
+            "api_id": 116
+        },
+        {
+            "api_name": "uploadToAnonfiles",
+            "malicious_purposes": [
+                "Exfiltrating stolen data to anonymous file-sharing services",
+                "Uploading logs or harvested credentials for attacker retrieval"
+            ],
+            "api_id": 117
+        },
+        {
+            "api_name": "upload",
+            "malicious_purposes": [
+                "Sending sensitive files or system information to remote servers",
+                "Data exfiltration as part of post-exploitation activities"
+            ],
+            "api_id": 118
+        },
+        {
+            "api_name": "file_obj.write",
+            "malicious_purposes": [
+                "Writing malicious payloads or backdoors to the filesystem",
+                "Modifying system or user files for persistence"
+            ],
+            "api_id": 119
+        },
+        {
+            "api_name": "f.close",
+            "malicious_purposes": [
+                "Finalizing writes of malicious content to disk after exfiltration or payload deployment",
+                "Covering tracks by ensuring file handles are properly closed after tampering"
+            ],
+            "api_id": 120
+        },
+        {
+            "api_name": "f.readlines",
+            "malicious_purposes": [
+                "Reading sensitive local files (e.g., credentials, configs) for exfiltration",
+                "Harvesting data from compromised systems"
+            ],
+            "api_id": 121
+        },
+        {
+            "api_name": "sock.recv",
+            "malicious_purposes": [
+                "Receiving commands or payloads from a remote attacker-controlled server",
+                "Establishing covert communication channels for C2"
+            ],
+            "api_id": 122
+        },
+        {
+            "api_name": "request",
+            "malicious_purposes": [
+                "Fetching additional malware components from remote servers",
+                "Exfiltrating data via HTTP/HTTPS requests to attacker endpoints"
+            ],
+            "api_id": 123
+        },
+        {
+            "api_name": "session.close",
+            "malicious_purposes": [
+                "Terminating network connections after successful data exfiltration to avoid detection",
+                "Cleaning up C2 communication sessions post-exploitation"
+            ],
+            "api_id": 124
+        },
+        {
+            "api_name": "remove",
+            "malicious_purposes": [
+                "Deleting forensic evidence or log files to evade detection",
+                "Removing competing malware or security tools"
+            ],
+            "api_id": 125
+        },
+        {
+            "api_name": "IsUserAnAdmin",
+            "malicious_purposes": [
+                "Checking for elevated privileges to determine next-stage exploitation",
+                "Deciding whether to attempt privilege escalation based on current context"
+            ],
+            "api_id": 126
+        },
+        {
+            "api_name": "conn.cursor",
+            "malicious_purposes": [
+                "Executing unauthorized SQL queries to extract or manipulate database contents",
+                "Facilitating SQL injection attacks if input is not properly sanitized"
+            ],
+            "api_id": 127
+        },
+        {
+            "api_name": "sql_connect",
+            "malicious_purposes": [
+                "Connecting to internal databases to steal sensitive information",
+                "Lateral movement within a network by accessing database servers"
+            ],
+            "api_id": 128
+        },
+        {
+            "api_name": "checkToken",
+            "malicious_purposes": [
+                "Validating stolen authentication tokens for session hijacking",
+                "Maintaining persistent access using compromised credentials"
+            ],
+            "api_id": 129
+        },
+        {
+            "api_name": "LoadUrlib",
+            "malicious_purposes": [
+                "Dynamically loading modules or resources from remote URLs for code injection",
+                "Fetching and executing malicious scripts hosted online"
+            ],
+            "api_id": 130
+        },
+        {
+            "api_name": "locals",
+            "malicious_purposes": [
+                "Information disclosure by exposing local variables in a function scope, potentially leaking sensitive data like credentials or internal state.",
+                "Used in code obfuscation or dynamic introspection to access or manipulate runtime context for evasion or exploitation."
+            ],
+            "api_id": 131
+        },
+        {
+            "api_name": "setuptools.setup",
+            "malicious_purposes": [
+                "Abused in malicious packages to execute arbitrary code during installation via custom setup scripts.",
+                "Used to register post-install hooks that download and execute payloads or establish persistence."
+            ],
+            "api_id": 132
+        },
+        {
+            "api_name": "winreg.OpenKey",
+            "malicious_purposes": [
+                "Accessing or modifying Windows Registry keys to achieve persistence (e.g., Run keys).",
+                "Stealing stored credentials or configuration data from the registry (e.g., from HKCU\\Software)."
+            ],
+            "api_id": 133
+        },
+        {
+            "api_name": "urllib.urlopen",
+            "malicious_purposes": [
+                "Downloading remote payloads or exfiltrating data to attacker-controlled servers.",
+                "Performing SSRF (Server-Side Request Forgery) attacks if used with user-supplied URLs."
+            ],
+            "api_id": 134
+        },
+        {
+            "api_name": "getip",
+            "malicious_purposes": [
+                "Reconnaissance to determine the victim's public IP address for targeting or logging.",
+                "Used in conjunction with data exfiltration to tag stolen data with victim location."
+            ],
+            "api_id": 135
+        },
+        {
+            "api_name": "uploadToken",
+            "malicious_purposes": [
+                "Exfiltrating authentication tokens or session identifiers to attacker infrastructure.",
+                "Facilitating account takeover or lateral movement by stealing valid tokens."
+            ],
+            "api_id": 136
+        },
+        {
+            "api_name": "Threadlist.append",
+            "malicious_purposes": [
+                "Managing threads for concurrent malicious activities such as scanning, brute-forcing, or data exfiltration.",
+                "Obfuscating malicious behavior by distributing tasks across multiple threads to evade detection."
+            ],
+            "api_id": 137
+        },
+        {
+            "api_name": "PoolManager",
+            "malicious_purposes": [
+                "Establishing persistent HTTP connections to C2 servers for command and control communication.",
+                "Used to send large volumes of exfiltrated data efficiently via connection pooling."
+            ],
+            "api_id": 138
+        },
+        {
+            "api_name": "os.stat",
+            "malicious_purposes": [
+                "Enumerating file metadata (e.g., access times, sizes) during reconnaissance to identify valuable files.",
+                "Checking for existence of security tools or sandbox artifacts to enable anti-analysis behavior."
+            ],
+            "api_id": 139
+        },
+        {
+            "api_name": "os.mkdir",
+            "malicious_purposes": [
+                "Creating hidden directories to store payloads, logs, or exfiltrated data.",
+                "Establishing staging areas for multi-stage attacks or dropped files."
+            ],
+            "api_id": 140
+        },
+        {
+            "api_name": "KiwiFiles.append",
+            "malicious_purposes": [
+                "Collecting paths or contents of files related to credential stores (e.g., Mimikatz output), suggesting credential theft.",
+                "Aggregating sensitive system files for later exfiltration."
+            ],
+            "api_id": 141
+        },
+        {
+            "api_name": "links.append",
+            "malicious_purposes": [
+                "Building a list of discovered internal or external URLs for further exploitation (e.g., phishing, scanning).",
+                "Storing endpoints for data exfiltration or C2 communication."
+            ],
+            "api_id": 142
+        },
+        {
+            "api_name": "conn.urlopen",
+            "malicious_purposes": [
+                "Sending stolen data to remote servers or fetching additional malware modules.",
+                "Interacting with attacker-controlled APIs to receive commands or update configurations."
+            ],
+            "api_id": 143
+        },
+        {
+            "api_name": "proxy_from_url",
+            "malicious_purposes": [
+                "Routing traffic through compromised or malicious proxies to anonymize C2 communications.",
+                "Bypassing network monitoring by using legitimate proxy infrastructure for exfiltration."
+            ],
+            "api_id": 144
+        },
+        {
+            "api_name": "connection_from_url",
+            "malicious_purposes": [
+                "Establishing direct HTTP/HTTPS connections to attacker servers for data exfiltration or payload delivery.",
+                "Used in custom network clients to avoid high-level libraries that may be monitored."
+            ],
+            "api_id": 145
+        },
+        {
+            "api_name": "encode_multipart_formdata",
+            "malicious_purposes": [
+                "Crafting HTTP requests to upload stolen files or data to attacker-controlled endpoints.",
+                "Bypassing basic input filters by encoding exfiltrated data in multipart form format."
+            ],
+            "api_id": 146
+        },
+        {
+            "api_name": "_system",
+            "malicious_purposes": [
+                "Executing arbitrary shell commands for privilege escalation, lateral movement, or payload execution.",
+                "Running system utilities (e.g., netstat, ipconfig) for reconnaissance or disabling security controls."
+            ],
+            "api_id": 147
+        },
+        {
+            "api_name": "self.request",
+            "malicious_purposes": [
+                "Initiating HTTP requests to internal services (SSRF) or external C2 servers.",
+                "Used in web shells or backdoors to process attacker commands via HTTP parameters."
+            ],
+            "api_id": 148
+        },
+        {
+            "api_name": "os.urandom",
+            "malicious_purposes": [
+                "Generating cryptographically secure random data for encryption keys in malware to evade detection or secure command-and-control communications",
+                "Creating unpredictable payloads or tokens to bypass static analysis or signature-based detection"
+            ],
+            "api_id": 149
+        },
+        {
+            "api_name": "b64encode",
+            "malicious_purposes": [
+                "Encoding malicious payloads or exfiltrated data to avoid detection by network monitoring tools",
+                "Obfuscating strings or shellcode within malware to hinder reverse engineering"
+            ],
+            "api_id": 150
+        },
+        {
+            "api_name": "password.encode",
+            "malicious_purposes": [
+                "Preparing stolen credentials for transmission over the network in a format suitable for exfiltration",
+                "Encoding sensitive data before encrypting or obfuscating it in credential-stealing malware"
+            ],
+            "api_id": 151
+        },
+        {
+            "api_name": "body.encode",
+            "malicious_purposes": [
+                "Encoding arbitrary data (e.g., stolen files or system information) for exfiltration via HTTP requests",
+                "Preparing encoded payloads for injection into web requests as part of data exfiltration or C2 communication"
+            ],
+            "api_id": 152
+        },
+        {
+            "api_name": "k.encode",
+            "malicious_purposes": [
+                "Encoding dictionary keys (potentially containing sensitive or identifying information) for serialization and exfiltration",
+                "Obfuscating configuration parameters in malware that uses dynamic key-value structures"
+            ],
+            "api_id": 153
+        },
+        {
+            "api_name": "string.decode",
+            "malicious_purposes": [
+                "Decoding obfuscated or encrypted commands received from a command-and-control server",
+                "Reconstructing hidden payloads embedded as encoded strings within benign-looking code"
+            ],
+            "api_id": 154
+        },
+        {
+            "api_name": "write_to_path",
+            "malicious_purposes": [
+                "Dropping malicious payloads or secondary stages onto the victim’s file system",
+                "Writing stolen data to temporary or persistent storage prior to exfiltration"
+            ],
+            "api_id": 155
+        },
+        {
+            "api_name": "trustme.CA",
+            "malicious_purposes": [
+                "Generating fake Certificate Authorities to facilitate man-in-the-middle attacks on TLS traffic",
+                "Creating rogue certificates to impersonate legitimate services during phishing or data interception"
+            ],
+            "api_id": 156
+        },
+        {
+            "api_name": "ssl.create_default_context",
+            "malicious_purposes": [
+                "Establishing encrypted communication channels for command-and-control to evade network inspection",
+                "Configuring malicious clients or servers with custom SSL contexts to bypass certificate validation in attacks"
+            ],
+            "api_id": 157
+        },
+        {
+            "api_name": "sock.bind",
+            "malicious_purposes": [
+                "Binding to a local port to create a backdoor listener for remote access",
+                "Setting up a covert server to receive commands or exfiltrate data"
+            ],
+            "api_id": 158
+        },
+        {
+            "api_name": "sock.listen",
+            "malicious_purposes": [
+                "Enabling a socket to accept incoming connections, potentially for a reverse shell or backdoor",
+                "Facilitating unauthorized remote access by listening on a network interface"
+            ],
+            "api_id": 159
+        },
+        {
+            "api_name": "HTTPServer",
+            "malicious_purposes": [
+                "Hosting a malicious web server to serve payloads, phishing content, or receive exfiltrated data",
+                "Implementing a local C2 server for lateral movement or internal reconnaissance"
+            ],
+            "api_id": 160
+        },
+        {
+            "api_name": "context.wrap_socket",
+            "malicious_purposes": [
+                "Wrapping sockets with SSL/TLS to encrypt malicious traffic and evade detection",
+                "Impersonating secure services by presenting forged or self-signed certificates"
+            ],
+            "api_id": 161
+        },
+        {
+            "api_name": "platform.python_implementation",
+            "malicious_purposes": [
+                "Fingerprinting the execution environment to tailor payload behavior or avoid sandbox detection",
+                "Determining if the code is running in a restricted or analysis environment (e.g., PyPy vs CPython)"
+            ],
+            "api_id": 162
+        }
+    ]
+}

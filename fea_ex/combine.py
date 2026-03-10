@@ -65,10 +65,13 @@ if __name__ == "__main__":
     # convert_features_to_txt(pack_dir, malicious_output_txt_path, start_month='2022-01', end_month='2023-02', type_flag="malicious")
     # convert_features_to_txt(pack_dir, benign_output_txt_path, start_month='2022-01', end_month='2023-02', type_flag="benign")
 
+    fea_root = '/Data2/hxq/MalGuard/fea_ex/dataset'
+    os.makedirs(fea_root, exist_ok=True)
+
     # 将2303~2412每个月的特征向量各自合并成一个文件
     for month in [f"{year}-{str(m).zfill(2)}" for year in range(2022, 2025) for m in range(1, 13)]:
-        malicious_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset/malware_features_{month}.txt"
-        benign_output_txt_path = f"/Data2/hxq/MalGuard/fea_ex/dataset/benign_features_{month}.txt"
+        malicious_output_txt_path = f"{fea_root}/malware_features_{month}.txt"
+        benign_output_txt_path = f"{fea_root}/benign_features_{month}.txt"
 
         convert_features_to_txt(pack_dir, malicious_output_txt_path, start_month=month, end_month=month, type_flag="malicious")
         convert_features_to_txt(pack_dir, benign_output_txt_path, start_month=month, end_month=month, type_flag="benign")    
