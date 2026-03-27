@@ -12,16 +12,27 @@ def write_json(data, file_path):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-# 读取 top 500 API
-feature_set = read_json(r"output_top_500_closeness_centrality.json")
+def gpt_prompt_top_apis(input_path, output_path, batch_size=50):
+    """
+    读取TOP API json文件，调用GPT评估恶意用途，输出结果文件。
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-)
+    Args:
+        input_path: 输入的TOP API json文件路径
+        output_path: 输出的GPT评估结果文件路径
+        batch_size: 每批评估的API数量，默认50
+    """
+    # 初始化OpenAI客户端
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    )
 
-def evaluate_all_apis(api_list, batch_size=50):
-    """分批评估所有 API，避免响应过长截断"""
+    # 读取输入文件
+    feature_set = read_json(input_path)
+    api_list = list(feature_set.keys())
+    print(f"开始分批评估 {len(api_list)} 个 API (每批{batch_size}个)...")
+
+    # 分批评估
     all_results = []
     total_batches = (len(api_list) + batch_size - 1) // batch_size
 
@@ -82,32 +93,24 @@ Output ONLY the malicious APIs and follow the required JSON format.
                     time.sleep(5 * (retry + 1))
                 else:
                     print(f"    批次 {batch_num} 最终失败: {e}")
-                    save_progress(all_results)
+                    # 保存中间进度
+                    final_output = {"apis": all_results}
+                    write_json(final_output, output_path.replace(".json", "_progress.json"))
+                    print(f"  已保存中间进度: {len(all_results)} 个API")
 
-    return all_results
-
-def add_api_ids(results):
-    """为所有API添加递增的api_id"""
-    for idx, api in enumerate(results, start=1):
+    # 统一添加api_id
+    for idx, api in enumerate(all_results, start=1):
         api["api_id"] = idx
-    return results
 
-def save_progress(results):
-    """保存中间进度"""
-    final_output = {"apis": results}
-    write_json(final_output, r"gpt_prompt_result_closeness_progress.json")
-    print(f"  已保存中间进度: {len(results)} 个API")
+    # 保存结果
+    final_output = {"apis": all_results}
+    write_json(final_output, output_path)
+    print(f"\n完成! 共评估 {len(all_results)} 个 API, 结果已保存到 {output_path}")
 
-# 执行评估
-api_list = list(feature_set.keys())
-print(f"开始分批评估 {len(api_list)} 个 API (每批50个)...")
 
-results = evaluate_all_apis(api_list, batch_size=50)
-
-# 统一添加api_id
-results = add_api_ids(results)
-
-# 保存结果
-final_output = {"apis": results}
-write_json(final_output, r"gpt_prompt_result_closeness.json")
-print(f"\n完成! 共评估 {len(results)} 个 API, 结果已保存到 gpt_prompt_result_closeness.json")
+if __name__ == "__main__":
+    # 示例调用
+    gpt_prompt_top_apis(
+        input_path="../results/output_top_500_closeness_centrality.json",
+        output_path="../results/gpt_prompt_result_closeness.json"
+    )

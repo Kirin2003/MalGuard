@@ -4,6 +4,7 @@ import time
 import pandas as pd
 import numpy as np
 from data_loader import load_train_data, load_test_data
+from utils.month_utils import generate_month_range
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
 from train_with_lime import train_with_progress_bar, load_sensitive_apis
@@ -43,14 +44,8 @@ def load_data_up_to_month(end_month):
 
 
 def train_and_evaluate():
-    # 训练月份范围: 2023-02 到 2024-11 (需要确保有下一个月可测试)
-    train_months = []
-    for month in [f"{year}-{str(m).zfill(2)}" for year in range(2023, 2025) for m in range(1, 13)]:
-        if month < "2023-02":
-            continue
-        if month > "2024-11":
-            break
-        train_months.append(month)
+    # 训练月份范围: 2023-02 到 2024-11
+    train_months = generate_month_range('2023-02', '2024-11')
 
     sensitive_api_file = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness.json"
     sensitive_apis = load_sensitive_apis(sensitive_api_file)
