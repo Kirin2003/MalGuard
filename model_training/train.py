@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import BASE_START_MONTH, BASE_END_MONTH
 import time
 import pandas as pd
 import numpy as np
@@ -115,7 +118,7 @@ def train(X_train, X_test, y_train, y_test, model_name: str):
     print(times_df.to_string(index=False))
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = prepare_dataset("2022-01", "2023-02")
+    X_train, X_test, y_train, y_test = prepare_dataset(BASE_START_MONTH, BASE_END_MONTH)
 
     for model_name in ["nb", "mlp", "rf", "dt"]:
         train(X_train, X_test, y_train, y_test, model_name)

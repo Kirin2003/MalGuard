@@ -1,9 +1,16 @@
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import BASE_START_MONTH, BASE_END_MONTH, DATA_START_MONTH, DATA_END_MONTH
 import json
 from utils.month_utils import generate_month_range
 
 
-def convert_features_to_txt(pack_dir, output_txt_path, start_month='2022-01', end_month='2023-02', type_flag="malicious", feature_filename='closeness_feature_vector.json'):
+def convert_features_to_txt(pack_dir, output_txt_path, start_month=None, end_month=None, type_flag="malicious", feature_filename='closeness_feature_vector.json'):
+    if start_month is None:
+        start_month = BASE_START_MONTH
+    if end_month is None:
+        end_month = BASE_END_MONTH
 
     months = generate_month_range(start_month, end_month)
 
@@ -90,4 +97,4 @@ if __name__ == "__main__":
     pack_dir = r"/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset"
     output_dir = r"/Data2/hxq/MalGuard/fea_ex/dataset"
 
-    merge_features(pack_dir, output_dir, start_month='2022-01', end_month='2024-12')
+    merge_features(pack_dir, output_dir, start_month=DATA_START_MONTH, end_month=DATA_END_MONTH)

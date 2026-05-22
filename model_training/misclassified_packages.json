@@ -1,0 +1,65 @@
+{
+  "model_path": "/Data2/hxq/MalGuard/model_training/models/random_forest/random_forest_model.pkl",
+  "test_data": {
+    "malicious": {
+      "path": "/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset/malicious/2024-01",
+      "total": 24,
+      "mismatches": 5
+    },
+    "benign": {
+      "path": "/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset/benign/2024-01",
+      "total": 24,
+      "mismatches": 0
+    }
+  },
+  "summary": {
+    "total_packages": 48,
+    "total_mismatches": 5,
+    "accuracy": "89.58%",
+    "precision": 1.0,
+    "recall": 0.7917,
+    "f1": 0.8837
+  },
+  "mismatches": [
+    {
+      "package_name": "requesting-0.0.1",
+      "true_label": "malicious",
+      "predicted_label": "benign",
+      "pred_class": 0,
+      "prob_benign": 0.57,
+      "prob_malicious": 0.43
+    },
+    {
+      "package_name": "swapmempool-1.0.8",
+      "true_label": "malicious",
+      "predicted_label": "benign",
+      "pred_class": 0,
+      "prob_benign": 0.79,
+      "prob_malicious": 0.21
+    },
+    {
+      "package_name": "testing1232-0.0.1",
+      "true_label": "malicious",
+      "predicted_label": "benign",
+      "pred_class": 0,
+      "prob_benign": 0.86,
+      "prob_malicious": 0.14
+    },
+    {
+      "package_name": "update-mss-0.0.1",
+      "true_label": "malicious",
+      "predicted_label": "benign",
+      "pred_class": 0,
+      "prob_benign": 0.645,
+      "prob_malicious": 0.355
+    },
+    {
+      "package_name": "update-requests-0.0.1",
+      "true_label": "malicious",
+      "predicted_label": "benign",
+      "pred_class": 0,
+      "prob_benign": 0.57,
+      "prob_malicious": 0.43
+    }
+  ]
+}

@@ -2,6 +2,11 @@ import json
 from openai import OpenAI
 import os
 import time
+import argparse
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import get_llm_config
 
 def read_json(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -12,20 +17,22 @@ def write_json(data, file_path):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-def gpt_prompt_top_apis(input_path, output_path, batch_size=50):
+def gpt_prompt_top_apis(input_path, output_path, model_config, batch_size=50):
     """
     读取TOP API json文件，调用GPT评估恶意用途，输出结果文件。
 
     Args:
         input_path: 输入的TOP API json文件路径
         output_path: 输出的GPT评估结果文件路径
+        model_config: 模型配置字典，包含 model_name, base_url, api_key
         batch_size: 每批评估的API数量，默认50
     """
     # 初始化OpenAI客户端
     client = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY"),
-        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        api_key=model_config["api_key"],
+        base_url=model_config["base_url"],
     )
+    model_name = model_config["model_name"]
 
     # 读取输入文件
     feature_set = read_json(input_path)
@@ -68,7 +75,7 @@ Output ONLY the malicious APIs and follow the required JSON format.
         for retry in range(max_retries):
             try:
                 response = client.chat.completions.create(
-                    model="qwen3-max",
+                    model=model_name,
                     messages=[
                         {"role": "system", "content": "You are a security expert."},
                         {"role": "user", "content": prompt},
@@ -109,8 +116,41 @@ Output ONLY the malicious APIs and follow the required JSON format.
 
 
 if __name__ == "__main__":
-    # 示例调用
+    parser = argparse.ArgumentParser(description="使用大模型评估API的恶意用途")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="模型名称 (qwen/deepseek/local)，默认使用 config.py 中的 DEFAULT_LLM",
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        default="../results/output_top_500_closeness_centrality.json",
+        help="输入的TOP API json文件路径",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="../results/gpt_prompt_result_closeness.json",
+        help="输出的GPT评估结果文件路径",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=50,
+        help="每批评估的API数量",
+    )
+    args = parser.parse_args()
+
+    # 获取模型配置
+    model_config = get_llm_config(args.model)
+    print(f"使用模型: {model_config['model_name']}")
+    print(f"API地址: {model_config['base_url']}")
+
     gpt_prompt_top_apis(
-        input_path="../results/output_top_500_closeness_centrality.json",
-        output_path="../results/gpt_prompt_result_closeness.json"
+        input_path=args.input,
+        output_path=args.output,
+        model_config=model_config,
+        batch_size=args.batch_size,
     )

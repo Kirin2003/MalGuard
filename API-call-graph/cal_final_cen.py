@@ -4,6 +4,9 @@ from collections import defaultdict
 import networkx as nx
 import ast
 import io
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import BASE_START_MONTH, BASE_END_MONTH
 
 
 
@@ -40,7 +43,11 @@ def save_final_results(final_results, output_folder):
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(sorted_values, f, ensure_ascii=False, indent=4)
 
-def process_all_packages(base_folder, start_month='2022-01', end_month='2023-02'):
+def process_all_packages(base_folder, start_month=None, end_month=None):
+    if start_month is None:
+        start_month = BASE_START_MONTH
+    if end_month is None:
+        end_month = BASE_END_MONTH
     # 生成月份范围
     from datetime import datetime
     start = datetime.strptime(start_month, '%Y-%m')
@@ -68,4 +75,4 @@ def process_all_packages(base_folder, start_month='2022-01', end_month='2023-02'
 
 if __name__ == '__main__':
     base_folder = r'/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset'
-    process_all_packages(base_folder, start_month='2022-01', end_month='2023-02')
+    process_all_packages(base_folder)

@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import TRAIN_START_MONTH, TRAIN_END_MONTH
 import json
 import time
 import pandas as pd
@@ -8,6 +11,10 @@ from utils.month_utils import generate_month_range
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score, recall_score, f1_score
 from train_with_lime import train_with_progress_bar, load_sensitive_apis
+from utils.logger_utils import Logger
+
+# 全局日志器
+log = Logger("upper.log")
 
 
 def get_next_month(month):
@@ -20,7 +27,7 @@ def get_next_month(month):
 
 
 def load_data_up_to_month(end_month):
-    """加载从2022-01到end_month的所有数据，返回训练集和验证集"""
+    """加载从起始月份到end_month的所有数据，返回训练集和验证集"""
     X_trains, y_trains = [], []
     X_vals, y_vals = [], []
     for month in [f"{year}-{str(m).zfill(2)}" for year in range(2022, 2025) for m in range(1, 13)]:
@@ -44,8 +51,8 @@ def load_data_up_to_month(end_month):
 
 
 def train_and_evaluate():
-    # 训练月份范围: 2023-02 到 2024-11
-    train_months = generate_month_range('2023-02', '2024-11')
+    # 训练月份范围
+    train_months = generate_month_range(TRAIN_START_MONTH, TRAIN_END_MONTH)
 
     sensitive_api_file = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness.json"
     sensitive_apis = load_sensitive_apis(sensitive_api_file)
@@ -57,9 +64,9 @@ def train_and_evaluate():
 
     for train_month in train_months:
         test_month = get_next_month(train_month)
-        print(f"\n{'='*60}")
-        print(f"Training on data up to {train_month}, testing on {test_month}")
-        print(f"{'='*60}")
+        log.log(f"\n{'='*60}")
+        log.log(f"Training on data up to {train_month}, testing on {test_month}")
+        log.log(f"{'='*60}")
 
         # 加载训练集和验证集
         X_train, X_val, y_train, y_val = load_data_up_to_month(train_month)
@@ -70,9 +77,9 @@ def train_and_evaluate():
         ben_test_path = f"/Data2/hxq/MalGuard/fea_ex/dataset/benign_features_{test_month}.txt"
 
         X_test_next, y_test_next = load_test_data(mal_test_path, ben_test_path)
-        print(f"  Train samples: {len(y_train)}, Val samples: {len(y_val)}, Test(next month) samples: {len(y_test_next)}")
-        print(f"  Train malicious ratio: {y_train.sum()/len(y_train):.3f}")
-        print(f"  Test(next month) malicious ratio: {y_test_next.sum()/len(y_test_next):.3f}")
+        log.log(f"  Train samples: {len(y_train)}, Val samples: {len(y_val)}, Test(next month) samples: {len(y_test_next)}")
+        log.log(f"  Train malicious ratio: {y_train.sum()/len(y_train):.3f}")
+        log.log(f"  Test(next month) malicious ratio: {y_test_next.sum()/len(y_test_next):.3f}")
 
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         start_time = time.time()
@@ -92,8 +99,8 @@ def train_and_evaluate():
         recall = recall_score(y_test_next, y_pred, pos_label=1, zero_division=0)
         f1 = f1_score(y_test_next, y_pred, pos_label=1, zero_division=0)
 
-        print(f"  Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
-        print(f"  Training time: {train_time:.2f}s")
+        log.log(f"  Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
+        log.log(f"  Training time: {train_time:.2f}s")
 
         # 保存结果
         results["train_month"].append(train_month)
@@ -109,19 +116,19 @@ def train_and_evaluate():
     output_path = os.path.join(results_dir, "upper_random_forest.json")
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2)
-    print(f"\nSaved: {output_path}")
+    log.log(f"\nSaved: {output_path}")
 
     # 保存汇总CSV
     summary_df = pd.DataFrame(results)
     summary_path = os.path.join(results_dir, "upper_summary.csv")
     summary_df.to_csv(summary_path, index=False)
-    print(f"Saved summary: {summary_path}")
+    log.log(f"Saved summary: {summary_path}")
 
     # 打印汇总表
-    print("\n" + "="*80)
-    print("SUMMARY RESULTS")
-    print("="*80)
-    print(summary_df.to_string())
+    log.log("\n" + "="*80)
+    log.log("SUMMARY RESULTS")
+    log.log("="*80)
+    log.log(summary_df.to_string())
 
     return summary_df
 

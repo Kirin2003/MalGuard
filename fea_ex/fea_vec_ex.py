@@ -1,10 +1,17 @@
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DATA_START_MONTH, DATA_END_MONTH
 import json
 import time
 from utils.month_utils import generate_month_range
 
-def clear_intermediate_files(pack_dir, start_month='2022-01', end_month='2022-02', output_filename='closeness_feature_vector.json'):
+def clear_intermediate_files(pack_dir, start_month=None, end_month=None, output_filename='closeness_feature_vector.json'):
     """清除之前运行的中间文件"""
+    if start_month is None:
+        start_month = DATA_START_MONTH
+    if end_month is None:
+        end_month = DATA_END_MONTH
     months = generate_month_range(start_month, end_month)
 
     cleared_count = 0
@@ -25,7 +32,11 @@ def clear_intermediate_files(pack_dir, start_month='2022-01', end_month='2022-02
                     cleared_count += 1
     print(f"已清除 {cleared_count} 个中间文件")
 
-def extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2022-02', output_filename='closeness_feature_vector.json'):
+def extract_features(fea_set_path, pack_dir, start_month=None, end_month=None, output_filename='closeness_feature_vector.json'):
+    if start_month is None:
+        start_month = DATA_START_MONTH
+    if end_month is None:
+        end_month = DATA_END_MONTH
     clear_intermediate_files(pack_dir, start_month, end_month, output_filename)
 
     months = generate_month_range(start_month, end_month)
@@ -106,11 +117,11 @@ if __name__ == "__main__":
     starttime = time.time()
     print(f"The start time is: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
 
-    fea_set_path = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness.json" 
-    pack_dir = r"/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset" 
+    fea_set_path = r"/Data2/hxq/MalGuard/API-call-graph/gpt_prompt_result_closeness.json"
+    pack_dir = r"/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset"
 
- 
-    extract_features(fea_set_path, pack_dir, start_month='2022-01', end_month='2024-12')
+
+    extract_features(fea_set_path, pack_dir)
 
 
     endtime = time.time()

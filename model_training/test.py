@@ -1,7 +1,10 @@
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import INCREMENTAL_START_MONTH
 import json
 from data_loader import load_test_data
-from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 import joblib
 
 def test():
@@ -16,7 +19,7 @@ def test():
         "multi_layer_perceptron",
     ]
 
-    # 测试模型在2022-01~2024-03每个月的数据集上的表现
+    # 测试模型在每个月的数据集上的表现
     # 先加载所有模型为全局变量
     print("Loading all models...")
     models = {}
@@ -30,7 +33,7 @@ def test():
     months = [f"{year}-{str(m).zfill(2)}" for year in range(2022, 2025) for m in range(1, 13)]
 
     # 为每个模型单独存储结果
-    model_results = {model_file: {"month": [], "f1": [], "precision": [], "recall": []}
+    model_results = {model_file: {"month": [], "accuracy": [], "f1": [], "precision": [], "recall": []}
                      for model_file in models.keys()}
 
     # 先循环模型，再循环月份
@@ -39,8 +42,8 @@ def test():
         print(f"\n{'#'*20} Testing {model_name} {'#'*20}")
 
         for month in months:
-            if month < "2023-03":
-                continue  # 跳过2023-03之前的月份
+            if month < INCREMENTAL_START_MONTH:
+                continue  # 跳过增量月份之前的月份
             mal_data_path = f"/Data2/hxq/MalGuard/fea_ex/dataset/malware_features_{month}.txt"
             ben_data_path = f"/Data2/hxq/MalGuard/fea_ex/dataset/benign_features_{month}.txt"
 
@@ -51,8 +54,10 @@ def test():
             precision = precision_score(y_test, y_pred, pos_label=1, zero_division=0)
             recall = recall_score(y_test, y_pred, pos_label=1, zero_division=0)
             f1 = f1_score(y_test, y_pred, pos_label=1, zero_division=0)
+            accuracy = accuracy_score(y_test, y_pred)
 
             model_results[model_file]["month"].append(month)
+            model_results[model_file]["accuracy"].append(accuracy)
             model_results[model_file]["f1"].append(f1)
             model_results[model_file]["precision"].append(precision)
             model_results[model_file]["recall"].append(recall)
@@ -62,9 +67,19 @@ def test():
     os.makedirs(results_dir, exist_ok=True)
 
     for model_file, data in model_results.items():
+        # 计算平均值
+        avg_results = {
+            "avg_precision": sum(data["precision"]) / len(data["precision"]) if data["precision"] else 0,
+            "avg_recall": sum(data["recall"]) / len(data["recall"]) if data["recall"] else 0,
+            "avg_f1": sum(data["f1"]) / len(data["f1"]) if data["f1"] else 0,
+            "avg_accuracy": sum(data["accuracy"]) / len(data["accuracy"]) if data["accuracy"] else 0,
+        }
+        # 合并每月数据和平均值
+        output_data = {**data, **avg_results}
+
         output_path = os.path.join(results_dir, f"malguard_{model_file}.json")
         with open(output_path, 'w') as f:
-            json.dump(data, f, indent=2)
+            json.dump(output_data, f, indent=2)
         print(f"Saved: {output_path}")
 
     print("\nAll results saved to JSON files")

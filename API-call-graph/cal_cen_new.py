@@ -1,6 +1,9 @@
 import ast
 import re
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DATA_START_MONTH, DATA_END_MONTH
 import json
 import networkx as nx
 import time
@@ -79,6 +82,11 @@ def save_centralities(subdir_path, centralities):
 
 def process_package(package_path):
     """处理单个包，构建API调用图并计算中心性"""
+    # 断点续传：检查是否已处理过
+    required_files = ['degree_new.json', 'closeness_new.json', 'harmonic_new.json']
+    if all(os.path.exists(os.path.join(package_path, f)) for f in required_files):
+        return
+
     # print(f"Start processing: {package_path}")
 
     all_api_calls = []
@@ -118,10 +126,10 @@ def process_package(package_path):
 def main():
     base_path = r'/Data2/hxq/datasets/incremental_packages_dynamic_capping_subset/'
 
-    # 生成 2022-01 到 2024-12 的月份列表
+    # 生成月份列表
     from datetime import datetime
-    start = datetime.strptime('2022-01', '%Y-%m')
-    end = datetime.strptime('2024-12', '%Y-%m')
+    start = datetime.strptime(DATA_START_MONTH, '%Y-%m')
+    end = datetime.strptime(DATA_END_MONTH, '%Y-%m')
     months = []
     current = start
     while current <= end:
